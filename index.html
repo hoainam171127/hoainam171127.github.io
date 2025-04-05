@@ -88,25 +88,95 @@
         </div>
     </section>
 
+<!-- Phần cuối của index.html trước </body> -->
     <!-- Popup thông báo -->
     <div id="popup" class="popup hidden">
         <i class="fas fa-check-circle"></i> Mua hàng thành công!
     </div>
+<!-- Popup lưu mã giảm giá -->
+<div id="discountPopup" class="popup hidden">
+    <i class="fas fa-tag"></i> Đã lưu mã giảm giá!
+</div>    
 
-    <!-- JavaScript xử lý popup -->
-    <script>
-        document.querySelectorAll("button").forEach(button => {
-            button.addEventListener("click", () => {
-                const popup = document.getElementById("popup");
-                popup.classList.remove("hidden");
-                popup.classList.add("show");
+    <!-- Mã giảm giá và đồng hồ đếm ngược -->
+    <div class="discount-timer-container">
+        <div class="discount-card">
+            <div class="discount-info">
+                <p class="discount-title">Giảm 5%</p>
+                <p class="discount-label">Mã:</p>
+                <p class="discount-code">OpenNhungHandmade</p>
+                <p class="discount-label">HSD:</p>
+                <p class="discount-date" id="discountExpiryDate">10.06.2023</p>
+            </div>
+            <button class="save-button">Lưu</button>
+        </div>
+        <div class="countdown-timer">
+            <div><p id="hours">1</p><span>GIỜ</span></div>
+            <div><p id="minutes">0</p><span>PHÚT</span></div>
+            <div><p id="seconds">0</p><span>GIÂY</span></div>
+        </div>
+    </div>
 
-                setTimeout(() => {
-                    popup.classList.remove("show");
-                    popup.classList.add("hidden");
-                }, 2000);
-            });
+<script>
+    // Hạn sử dụng mã giảm giá
+    const discountExpiryDate = new Date("2025-04-05T23:59:59"); // Ngày hết hạn mã giảm giá
+
+    // Lấy ngày hiện tại
+    function updateDiscountTimer() {
+        const now = new Date();
+        const timeRemaining = discountExpiryDate - now; // Tính toán thời gian còn lại (millisecond)
+
+        if (timeRemaining > 0) {
+            const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            // Cập nhật giờ, phút, giây
+            document.getElementById("hours").textContent = hours;
+            document.getElementById("minutes").textContent = minutes;
+            document.getElementById("seconds").textContent = seconds;
+
+            // Cập nhật ngày hết hạn mã giảm giá
+            document.getElementById("discountExpiryDate").textContent = `${discountExpiryDate.getDate()}.${discountExpiryDate.getMonth() + 1}.${discountExpiryDate.getFullYear()}`;
+        } else {
+            // Khi mã giảm giá hết hạn, hiển thị thông báo hết hạn
+            document.getElementById("discountExpiryDate").textContent = "Mã giảm giá đã hết hạn";
+            document.getElementById("hours").textContent = 0;
+            document.getElementById("minutes").textContent = 0;
+            document.getElementById("seconds").textContent = 0;
+        }
+    }
+
+    // Cập nhật đồng hồ đếm ngược mỗi giây
+    setInterval(updateDiscountTimer, 1000);
+
+    // Nút mua hàng
+    document.querySelectorAll("button.purchase").forEach(button => {
+        button.addEventListener("click", () => {
+            const popup = document.getElementById("popup");
+            popup.classList.remove("hidden");
+            popup.classList.add("show");
+
+            setTimeout(() => {
+                popup.classList.remove("show");
+                popup.classList.add("hidden");
+            }, 2000);
         });
-    </script>
+    });
+
+    // Nút lưu mã giảm giá
+    document.querySelectorAll("button.save-button").forEach(button => {
+        button.addEventListener("click", () => {
+            const popup = document.getElementById("discountPopup");
+            popup.classList.remove("hidden");
+            popup.classList.add("show");
+
+            setTimeout(() => {
+                popup.classList.remove("show");
+                popup.classList.add("hidden");
+            }, 2000);
+        });
+    });
+</script>
 </body>
 </html>
