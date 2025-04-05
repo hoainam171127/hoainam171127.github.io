@@ -211,3 +211,80 @@ button:hover {
 .popup i {
     margin-right: 8px;
 }
+/* Khung mã giảm giá + đồng hồ đếm */
+.discount-timer-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.discount-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.discount-info {
+    text-align: left;
+}
+
+.discount-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e67e22;
+}
+
+.discount-label {
+    font-size: 14px;
+    color: #666;
+    margin: 4px 0 0;
+}
+
+.discount-code {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.discount-date {
+    font-size: 16px;
+}
+
+.save-button {
+    background-color: #e67e22;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.countdown-timer {
+    display: flex;
+    justify-content: space-around;
+    background-color: #000;
+    border-radius: 10px;
+    padding: 16px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.countdown-timer div {
+    flex: 1;
+}
+
+.countdown-timer p {
+    font-size: 28px;
+    margin: 0;
+}
+
+.countdown-timer span {
+    font-size: 12px;
+}
