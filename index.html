@@ -210,10 +210,27 @@
       <img src="anh13.png" alt="Facebook Icon" />
   </a>
   <div id="floating-hint">5k 1 bài toán</div>
-</div><script>
+</div>
+
+<script>
     const wrapper = document.getElementById("facebook-floating-wrapper");
     let isDragging = false;
     let offset = { x: 0, y: 0 };
+    let animationFrameId = null;
+
+    function moveWrapperSmooth(clientX, clientY) {
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
+
+        animationFrameId = requestAnimationFrame(() => {
+            wrapper.style.left = (clientX - offset.x) + "px";
+            wrapper.style.top = (clientY - offset.y) + "px";
+            wrapper.style.right = "auto";
+            wrapper.style.bottom = "auto";
+            wrapper.style.position = "fixed";
+        });
+    }
 
     // Mouse events
     wrapper.addEventListener("mousedown", function (e) {
@@ -225,7 +242,7 @@
 
     document.addEventListener("mousemove", function (e) {
         if (isDragging) {
-            moveWrapper(e.clientX, e.clientY);
+            moveWrapperSmooth(e.clientX, e.clientY);
         }
     });
 
@@ -245,21 +262,13 @@
     document.addEventListener("touchmove", function (e) {
         if (isDragging) {
             const touch = e.touches[0];
-            moveWrapper(touch.clientX, touch.clientY);
+            moveWrapperSmooth(touch.clientX, touch.clientY);
         }
     }, { passive: false });
 
     document.addEventListener("touchend", function () {
         isDragging = false;
     });
-
-    function moveWrapper(clientX, clientY) {
-        wrapper.style.left = (clientX - offset.x) + "px";
-        wrapper.style.top = (clientY - offset.y) + "px";
-        wrapper.style.right = "auto";
-        wrapper.style.bottom = "auto";
-        wrapper.style.position = "fixed";
-    }
 
     // Hint logic
     const hint = document.getElementById("floating-hint");
@@ -268,10 +277,11 @@
         hint.style.opacity = 1;
         setTimeout(() => {
             hint.style.opacity = 0;
-        }, 3000); // Hiện 3 giây
+        }, 3000);
     }
 
-    setInterval(showHint, 10000); // Lặp mỗi 10 giây
-</script>    
+    setInterval(showHint, 10000);
+</script>
+
 </body>
 </html>
