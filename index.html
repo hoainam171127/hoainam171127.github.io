@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Len Handmade</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo-container">
+                <img src="anh6.png" alt="Len Handmade Logo" class="logo">
+            </div>
+            <div class="search-cart-user">
+                <input type="text" placeholder="Tìm kiếm sản phẩm" class="search-bar">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#">Trang chủ</a></li>
+            <li><a href="#sanpham">Sản phẩm</a></li>
+            <li><a href="#gioithieu">Giới thiệu</a></li>
+            <li><a href="#tintuc">Tin tức</a></li>
+            <li><a href="#lienhe">Liên hệ</a></li>
+        </ul>
+    </nav>
+    
+    <section class="banner">
+        <img src="anh5.png" alt="Banner cửa hàng">
+    </section>
+    
+    <section class="features">
+        <div class="image-gallery">
+            <img src="anh1.png" alt="Ảnh 1" class="responsive-img">
+            <img src="anh2.png" alt="Ảnh 2" class="responsive-img">
+            <img src="anh3.png" alt="Ảnh 3" class="responsive-img">
+            <img src="anh4.png" alt="Ảnh 4" class="responsive-img">
+        </div>
+    </section>
+    
+    <section class="products">
+        <h2>SẢN PHẨM BÁN CHẠY</h2>
+        <div class="product-list">
+            <div class="product">
+                <img src="anh7.jpg" alt="Sản phẩm 1">
+                <h3>Len màu hồng</h3>
+                <p class="price">100.000 đ</p>
+                <button>THÊM VÀO GIỎ</button>
+            </div>
+            <div class="product">
+                <img src="anh8.jpg" alt="Sản phẩm 2">
+                <h3>Len màu xanh</h3>
+                <p class="price">110.000 đ</p>
+                <button>THÊM VÀO GIỎ</button>
+            </div>
+            <div class="product">
+                <img src="anh9.jpg" alt="Sản phẩm 3">
+                <h3>Len màu đỏ</h3>
+                <p class="price">120.000 đ</p>
+                <button>THÊM VÀO GIỎ</button>
+            </div>
+            <div class="product">
+                <img src="anh10.jpg" alt="Sản phẩm 4">
+                <h3>Len màu tím</h3>
+                <p class="price">130.000 đ</p>
+                <button>THÊM VÀO GIỎ</button>
+            </div>
+            <div class="product">
+                <img src="anh11.jpg" alt="Sản phẩm 5">
+                <h3>Len màu tím</h3>
+                <p class="price">140.000 đ</p>
+                <button>THÊM VÀO GIỎ</button>
+            </div>            
+            <div class="product">
+                <img src="anh12.jpg" alt="Sản phẩm 6">
+                <h3>Len màu tím</h3>
+                <p class="price">150.000 đ</p>
+                <button>THÊM VÀO GIỎ</button>
+            </div>            
+        </div>
+    </section>
+
+    <!-- Popup thông báo -->
+    <div id="popup" class="popup hidden">
+        <i class="fas fa-check-circle"></i> Mua hàng thành công!
+    </div>
+
+    <!-- JavaScript xử lý popup -->
+    <script>
+        document.querySelectorAll("button").forEach(button => {
+            button.addEventListener("click", () => {
+                const popup = document.getElementById("popup");
+                popup.classList.remove("hidden");
+                popup.classList.add("show");
+
+                setTimeout(() => {
+                    popup.classList.remove("show");
+                    popup.classList.add("hidden");
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
