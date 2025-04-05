@@ -88,11 +88,11 @@
         </div>
     </section>
 
-    <!-- Phần cuối của index.html trước </body> -->
     <!-- Popup thông báo -->
     <div id="popup" class="popup hidden">
         <i class="fas fa-check-circle"></i> Mua hàng thành công!
     </div>
+
     <!-- Popup lưu mã giảm giá -->
     <div id="discountPopup" class="popup hidden">
         <i class="fas fa-tag"></i> Đã lưu mã giảm giá!
@@ -117,46 +117,37 @@
         </div>
     </div>
 
+    <!-- Script -->
     <script>
-        // Hạn sử dụng mã giảm giá
-        const discountExpiryDate = new Date("2025-04-05T23:59:59"); // Ngày hết hạn mã giảm giá
-
-        // Lấy ngày hiện tại
+        // Cập nhật đồng hồ đếm ngược
+        const discountExpiryDate = new Date("2025-04-05T23:59:59");
         function updateDiscountTimer() {
             const now = new Date();
-            const timeRemaining = discountExpiryDate - now; // Tính toán thời gian còn lại (millisecond)
-
+            const timeRemaining = discountExpiryDate - now;
             if (timeRemaining > 0) {
                 const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
                 const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-                // Cập nhật giờ, phút, giây
                 document.getElementById("hours").textContent = hours;
                 document.getElementById("minutes").textContent = minutes;
                 document.getElementById("seconds").textContent = seconds;
-
-                // Cập nhật ngày hết hạn mã giảm giá
-                document.getElementById("discountExpiryDate").textContent = `${discountExpiryDate.getDate()}.${discountExpiryDate.getMonth() + 1}.${discountExpiryDate.getFullYear()}`;
+                document.getElementById("discountExpiryDate").textContent =
+                    `${discountExpiryDate.getDate()}.${discountExpiryDate.getMonth() + 1}.${discountExpiryDate.getFullYear()}`;
             } else {
-                // Khi mã giảm giá hết hạn, hiển thị thông báo hết hạn
                 document.getElementById("discountExpiryDate").textContent = "Mã giảm giá đã hết hạn";
                 document.getElementById("hours").textContent = 0;
                 document.getElementById("minutes").textContent = 0;
                 document.getElementById("seconds").textContent = 0;
             }
         }
-
-        // Cập nhật đồng hồ đếm ngược mỗi giây
         setInterval(updateDiscountTimer, 1000);
 
-        // Nút mua hàng
+        // Popup mua hàng
         document.querySelectorAll("button.purchase").forEach(button => {
             button.addEventListener("click", () => {
                 const popup = document.getElementById("popup");
                 popup.classList.remove("hidden");
                 popup.classList.add("show");
-
                 setTimeout(() => {
                     popup.classList.remove("show");
                     popup.classList.add("hidden");
@@ -164,18 +155,54 @@
             });
         });
 
-        // Nút lưu mã giảm giá
-        document.querySelectorAll("button.save-button").forEach(button => {
-            button.addEventListener("click", () => {
-                const popup = document.getElementById("discountPopup");
-                popup.classList.remove("hidden");
-                popup.classList.add("show");
+        // Xử lý nút Lưu mã giảm giá
+        const saveButton = document.querySelector("button.save-button");
+        const discountPopup = document.getElementById("discountPopup");
+        let discountTimeout = null;
 
-                setTimeout(() => {
-                    popup.classList.remove("show");
-                    popup.classList.add("hidden");
-                }, 2000);
+        function applyDiscount() {
+            document.querySelectorAll(".product").forEach(product => {
+                const priceElement = product.querySelector(".price");
+                const originalPriceText = priceElement.textContent.replace(/[^\d]/g, "");
+                const originalPrice = parseFloat(originalPriceText);
+                if (!priceElement.dataset.originalPrice) {
+                    priceElement.dataset.originalPrice = originalPrice;
+                }
+                const discountedPrice = Math.round(originalPrice * 0.95);
+                priceElement.textContent = discountedPrice.toLocaleString() + " đ";
             });
+        }
+
+        function resetPrices() {
+            document.querySelectorAll(".product").forEach(product => {
+                const priceElement = product.querySelector(".price");
+                const original = priceElement.dataset.originalPrice;
+                if (original) {
+                    priceElement.textContent = parseFloat(original).toLocaleString() + " đ";
+                }
+            });
+        }
+
+        saveButton.addEventListener("click", () => {
+            discountPopup.classList.remove("hidden");
+            discountPopup.classList.add("show");
+            setTimeout(() => {
+                discountPopup.classList.remove("show");
+                discountPopup.classList.add("hidden");
+            }, 2000);
+
+            applyDiscount();
+            saveButton.disabled = true;
+            saveButton.style.opacity = 0.5;
+            saveButton.textContent = "Đã áp dụng";
+
+            if (discountTimeout) clearTimeout(discountTimeout);
+            discountTimeout = setTimeout(() => {
+                resetPrices();
+                saveButton.disabled = false;
+                saveButton.style.opacity = 1;
+                saveButton.textContent = "Lưu";
+            }, 60000); // 1 phút
         });
     </script>
 </body>
